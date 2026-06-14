@@ -80,14 +80,14 @@
     position:relative;
     z-index:1;
     width:100%;
-    max-width: 480px;
+    max-width: 420px;
     background: rgba(255,255,255,0.62);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid rgba(255,255,255,0.55);
     border-radius: 28px;
     box-shadow: var(--shadow);
-    padding: 2.6rem 2rem;
+    padding: 2.2rem 1.7rem;
     overflow:hidden;
   }
 
@@ -213,6 +213,58 @@
     outline-offset: 2px;
   }
 
+  /* ---------- Date picker ---------- */
+  .date-picker-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom: 1.6rem;
+  }
+
+  .date-input{
+    width: 100%;
+    max-width: 280px;
+    padding: 0.9rem 1.1rem;
+    background: linear-gradient(135deg, #ffffff 0%, var(--pink-pale) 100%);
+    border: 1.5px solid var(--gold-light);
+    border-radius: 16px;
+    font-family:'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight:600;
+    color: var(--wine-deep);
+    text-align:center;
+    cursor:pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 16px -10px rgba(92,19,38,0.25);
+  }
+
+  .date-input:hover,
+  .date-input:focus{
+    border-color: var(--wine-soft);
+    outline: none;
+    box-shadow: 0 10px 22px -10px rgba(92,19,38,0.35);
+  }
+
+  .date-input::-webkit-calendar-picker-indicator{
+    filter: invert(0.25) sepia(1) saturate(4) hue-rotate(300deg);
+    cursor:pointer;
+  }
+
+  .date-error{
+    display:none;
+    text-align:center;
+    font-size: 0.85rem;
+    font-weight:700;
+    color: var(--wine-deep);
+    background: rgba(168,69,94,0.12);
+    border: 1px solid rgba(168,69,94,0.3);
+    border-radius: 12px;
+    padding: 0.6rem 0.9rem;
+    margin: -0.8rem 0 1.6rem;
+    animation: fadeUp 0.35s ease;
+  }
+
+  .date-error.visible{ display:block; }
+
   /* ---------- Time buttons ---------- */
   .time-grid{
     display:grid;
@@ -239,13 +291,7 @@
     box-shadow: 0 6px 16px -10px rgba(92,19,38,0.25);
   }
 
-  .time-btn::before{
-    content:"🕒";
-    font-size: 0.95rem;
-    opacity:0.8;
-  }
-
-  .time-btn:last-child{
+  .time-btn.full-row{
     grid-column: 1 / -1;
     max-width: 200px;
     margin: 0 auto;
@@ -423,6 +469,64 @@
     }
   }
 
+  .plan{
+    cursor:pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
+  }
+
+  .plan:hover{
+    border-color: var(--wine-soft);
+  }
+
+  .plan.selected{
+    transform: scale(1.06);
+    border-color: var(--wine-deep);
+    box-shadow: 0 16px 32px -14px rgba(92,19,38,0.5);
+    z-index: 2;
+    background: linear-gradient(150deg, var(--pink-pale), #ffffff);
+  }
+
+  .plans-grid.has-selection .plan:not(.selected){
+    transform: scale(0.97);
+    opacity: 0.6;
+  }
+
+  @media (min-width: 760px){
+    .plan.selected{ transform: scale(1.08); }
+    .plans-grid.has-selection .plan:not(.selected){ transform: scale(0.95); }
+  }
+
+  .btn-hire{
+    display:block;
+    margin: 1.4rem auto 0;
+    padding: 0.7rem 2rem;
+    border:none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--wine-deep) 100%);
+    color: var(--cream);
+    font-family:'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight:600;
+    letter-spacing: 0.4px;
+    cursor:pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px -10px rgba(92,19,38,0.5);
+    opacity:0;
+    transform: translateY(8px) scale(0.96);
+    pointer-events:none;
+  }
+
+  .btn-hire.visible{
+    opacity:1;
+    transform: translateY(0) scale(1);
+    pointer-events:all;
+  }
+
+  .btn-hire:hover{
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 26px -10px rgba(92,19,38,0.6);
+  }
+
   .modal-overlay.show .modal{
     transform: translateY(0) scale(1);
   }
@@ -493,40 +597,76 @@
     margin-top: 0.4rem;
   }
 
-  /* ---------- Toast ---------- */
-  .toast{
+  /* ---------- Loading overlay ---------- */
+  .loading-overlay{
     position:fixed;
-    top: 22px;
-    left:50%;
-    transform: translate(-50%, -120%);
-    background: var(--wine-deep);
-    color: var(--cream);
-    padding: 0.9rem 1.4rem;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    font-weight:600;
-    text-align:center;
-    max-width: 90vw;
-    box-shadow: 0 14px 30px -12px rgba(0,0,0,0.4);
-    z-index: 200;
-    transition: transform 0.45s cubic-bezier(.34,1.56,.64,1);
-    border: 1px solid var(--gold-light);
+    inset:0;
+    background: rgba(58,19,32,0.55);
+    backdrop-filter: blur(4px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: 1.4rem;
+    z-index: 150;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.3s ease;
   }
 
-  .toast.show{
-    transform: translate(-50%, 0);
+  .loading-overlay.show{
+    opacity:1;
+    pointer-events:all;
   }
+
+  .spinner{
+    width: 56px;
+    height: 56px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top-color: var(--gold-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin{
+    to{ transform: rotate(360deg); }
+  }
+
+  .loading-text{
+    font-family:'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight:600;
+    color: var(--cream);
+    text-align:center;
+    padding: 0 1.5rem;
+  }
+
+  /* ---------- Success message ---------- */
+  .success-msg{
+    display:none;
+    text-align:center;
+    font-family:'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--wine-deep);
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--gold-light);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    margin-top: 0.9rem;
+  }
+
+  .success-msg.visible{ display:block; animation: fadeUp 0.5s ease; }
 
   /* ---------- Responsive ---------- */
   @media (min-width: 540px){
-    .card{ padding: 3rem 2.6rem; }
+    .card{ padding: 2.6rem 2.2rem; }
     h1{ font-size: 1.85rem; }
     .options{ grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 360px){
     .time-grid{ grid-template-columns: 1fr; }
-    .time-btn:last-child{ max-width: 100%; }
+    .time-btn.full-row{ max-width: 100%; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -547,6 +687,7 @@
       <span class="active" data-step="1"></span>
       <span data-step="2"></span>
       <span data-step="3"></span>
+      <span data-step="4"></span>
     </div>
 
     <!-- TAB 1: Actividad -->
@@ -579,30 +720,49 @@
       <button class="btn-primary" id="btn-continue" disabled>Continuar</button>
     </section>
 
-    <!-- TAB 2: Horario -->
+    <!-- TAB 2: Día -->
     <section class="tab" id="tab-2" aria-labelledby="tab2-title">
       <span class="eyebrow">Paso 2</span>
-      <h1 id="tab2-title">¿En qué horario puedo recogerla? 🕒</h1>
+      <h1 id="tab2-title">¿Qué día podría recogerla? 📅</h1>
+      <p class="lead">Seleccione la fecha que más le convenga</p>
+
+      <div class="date-picker-wrap">
+        <input type="date" id="date-input" class="date-input" aria-label="Fecha de recogida">
+      </div>
+      <p class="date-error" id="date-error"></p>
+
+      <button class="btn-primary" id="btn-continue-date" disabled>Continuar</button>
+    </section>
+
+    <!-- TAB 3: Horario -->
+    <section class="tab" id="tab-3" aria-labelledby="tab3-title">
+      <span class="eyebrow">Paso 3</span>
+      <h1 id="tab3-title">¿En qué horario puedo recogerla? 🕒</h1>
       <p class="lead">Elija el horario que más le convenga</p>
 
       <div class="time-grid" id="time-options" role="group" aria-label="Opciones de horario">
-        <button class="time-btn" data-value="1 pm">1 pm</button>
-        <button class="time-btn" data-value="2 pm">2 pm</button>
-        <button class="time-btn" data-value="3 pm">3 pm</button>
-        <button class="time-btn" data-value="4 pm">4 pm</button>
-        <button class="time-btn" data-value="5 pm">5 pm</button>
+        <button class="time-btn" data-value="11 am">🕒 11 am</button>
+        <button class="time-btn" data-value="12 pm">🕒 12 pm</button>
+        <button class="time-btn" data-value="1 pm">🕒 1 pm</button>
+        <button class="time-btn" data-value="2 pm">🕒 2 pm</button>
+        <button class="time-btn" data-value="3 pm">🕒 3 pm</button>
+        <button class="time-btn" data-value="4 pm">🕒 4 pm</button>
       </div>
     </section>
 
-    <!-- TAB 3: Confirmación -->
-    <section class="tab" id="tab-3" aria-labelledby="tab3-title">
+    <!-- TAB 4: Confirmación -->
+    <section class="tab" id="tab-4" aria-labelledby="tab4-title">
       <span class="eyebrow">Último paso</span>
-      <h1 id="tab3-title">Muchas gracias por su selección, preciosa ✨</h1>
+      <h1 id="tab4-title">Muchas gracias por su selección, preciosa ✨</h1>
 
       <div class="summary">
         <div class="summary-row">
           <span class="summary-label">Actividad</span>
           <span class="summary-value" id="summary-activity">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Día de recogida</span>
+          <span class="summary-value" id="summary-day">—</span>
         </div>
         <div class="summary-row">
           <span class="summary-label">Horario de recogida</span>
@@ -616,13 +776,15 @@
 
       <button class="btn-primary" id="btn-confirm">Confirmar 💌</button>
       <button class="btn-link" id="btn-edit">✏️ Editar respuestas</button>
+      <p class="success-msg" id="success-msg">¡Listo, su información ha sido enviada! Estaremos confirmando los detalles muy pronto 💌</p>
     </section>
 
   </main>
 
-  <!-- Toast -->
-  <div class="toast" id="toast" role="status" aria-live="polite">
-    Es broma, esté atenta a los días próximos para confirmación directa 😉
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loading-overlay" role="status" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="loading-text">Enviando respuestas al servidor...</p>
   </div>
 
   <!-- Modal -->
@@ -630,8 +792,10 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <span class="eyebrow">Elija su plan</span>
       <h2 id="modal-title">Planes de suscripción 💞</h2>
-      <div class="plans-grid">
-        <div class="plan">
+      <p class="modal-sub">Para finalizar, seleccione el plan de su preferencia</p>
+
+      <div class="plans-grid" id="plans-grid">
+        <div class="plan" data-plan="Plan Amigos">
           <div class="plan-head">
             <span class="name">Plan Amigos</span>
             <span class="price">$100 MXN</span>
@@ -645,7 +809,7 @@
           </ul>
         </div>
 
-        <div class="plan featured">
+        <div class="plan featured" data-plan="Plan Más que Amigos">
           <div class="plan-head">
             <span class="name">Plan Más que Amigos</span>
             <span class="price">$200 MXN</span>
@@ -659,7 +823,7 @@
           </ul>
         </div>
 
-        <div class="plan">
+        <div class="plan" data-plan="Plan Novios">
           <div class="plan-head">
             <span class="name">Plan Novios</span>
             <span class="price">$300 MXN</span>
@@ -672,7 +836,7 @@
         </div>
       </div>
 
-      <button class="btn-primary modal-close" id="btn-close-modal">Cerrar</button>
+      <button class="btn-hire" id="btn-hire">Contratar</button>
     </div>
   </div>
 
@@ -709,12 +873,13 @@
   /* ---------------------------------------------
      State + tab navigation
   --------------------------------------------- */
-  const state = { activity: null, time: null };
+  const state = { activity: null, day: null, time: null, plan: null };
 
   const tabs = {
     1: document.getElementById('tab-1'),
     2: document.getElementById('tab-2'),
     3: document.getElementById('tab-3'),
+    4: document.getElementById('tab-4'),
   };
 
   const dots = document.querySelectorAll('#progress span');
@@ -745,20 +910,78 @@
     if (state.activity) goToTab(2);
   });
 
-  /* --- Tab 2: time selection --- */
+  /* --- Tab 2: date selection --- */
+  const dateInput = document.getElementById('date-input');
+  const continueDateBtn = document.getElementById('btn-continue-date');
+  const dateError = document.getElementById('date-error');
+
+  const MIN_DATE = '2026-06-13'; // debe ser después de esta fecha
+  const MAX_DATE = '2026-07-31'; // debe ser antes de agosto 2026
+
+  dateInput.min = MIN_DATE;
+  dateInput.max = MAX_DATE;
+
+  function showDateError(message){
+    dateError.textContent = message;
+    dateError.classList.add('visible');
+    continueDateBtn.disabled = true;
+    state.day = null;
+  }
+
+  function hideDateError(){
+    dateError.classList.remove('visible');
+    dateError.textContent = '';
+  }
+
+  dateInput.addEventListener('change', () => {
+    if (!dateInput.value){
+      hideDateError();
+      state.day = null;
+      continueDateBtn.disabled = true;
+      return;
+    }
+
+    const [year, month, day] = dateInput.value.split('-');
+
+    if (year !== '2026'){
+      showDateError('La fecha debe ser de este año, 2026.');
+      return;
+    }
+
+    if (dateInput.value > MAX_DATE){
+      showDateError('La fecha debe ser antes de agosto de 2026.');
+      return;
+    }
+
+    if (dateInput.value <= MIN_DATE){
+      showDateError('La fecha debe ser después del 13 de junio de 2026.');
+      return;
+    }
+
+    hideDateError();
+    state.day = `${day}/${month}/${year}`;
+    continueDateBtn.disabled = false;
+  });
+
+  continueDateBtn.addEventListener('click', () => {
+    if (state.day) goToTab(3);
+  });
+
+  /* --- Tab 3: time selection --- */
   const timeOptions = document.querySelectorAll('#time-options .time-btn');
 
   timeOptions.forEach(btn => {
     btn.addEventListener('click', () => {
       state.time = btn.dataset.value;
       updateSummary();
-      goToTab(3);
+      goToTab(4);
     });
   });
 
-  /* --- Tab 3: summary + actions --- */
+  /* --- Tab 4: summary + actions --- */
   function updateSummary(){
     document.getElementById('summary-activity').textContent = state.activity || '—';
+    document.getElementById('summary-day').textContent = state.day || '—';
     document.getElementById('summary-time').textContent = state.time || '—';
   }
 
@@ -767,39 +990,66 @@
   });
 
   /* ---------------------------------------------
-     Confirm: send data + show modal + toast
+     Confirm: loading spinner -> plans modal
   --------------------------------------------- */
+  const loadingOverlay = document.getElementById('loading-overlay');
   const modalOverlay = document.getElementById('modal-overlay');
-  const toast = document.getElementById('toast');
+  const confirmBtn = document.getElementById('btn-confirm');
+  const editBtn = document.getElementById('btn-edit');
+  const successMsg = document.getElementById('success-msg');
+  const plansGrid = document.getElementById('plans-grid');
+  const planCards = document.querySelectorAll('#plans-grid .plan');
+  const hireBtn = document.getElementById('btn-hire');
 
-  document.getElementById('btn-confirm').addEventListener('click', () => {
+  confirmBtn.addEventListener('click', () => {
+    confirmBtn.disabled = true;
+    loadingOverlay.classList.add('show');
 
-    // 1. Send data to Formspree in the background
+    setTimeout(() => {
+      loadingOverlay.classList.remove('show');
+      modalOverlay.classList.add('show');
+    }, 4000);
+  });
+
+  /* --- Plan selection inside the modal --- */
+  planCards.forEach(card => {
+    card.addEventListener('click', () => {
+      planCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      plansGrid.classList.add('has-selection');
+      state.plan = card.dataset.plan;
+      hireBtn.classList.add('visible');
+      hireBtn.textContent = 'Contratar ' + state.plan;
+    });
+  });
+
+  /* ---------------------------------------------
+     Send data to Formspree
+  --------------------------------------------- */
+  function sendData(){
     fetch('https://formspree.io/f/xvznvqdl', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: new URLSearchParams({
         Actividad: state.activity || '',
-        Horario: state.time || ''
+        Día: state.day || '',
+        Horario: state.time || '',
+        Plan: state.plan || 'Sin plan'
       })
     }).catch(() => { /* envío en segundo plano, errores silenciosos */ });
+  }
 
-    // 2. Show the playful subscription modal
-    modalOverlay.classList.add('show');
-
-    // 3. Show the toast notification 5 seconds after confirming
-    setTimeout(() => {
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 6000);
-    }, 5000);
-  });
-
-  document.getElementById('btn-close-modal').addEventListener('click', () => {
+  function finishFlow(){
     modalOverlay.classList.remove('show');
-  });
+    confirmBtn.style.display = 'none';
+    editBtn.style.display = 'none';
+    successMsg.classList.add('visible');
+  }
 
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) modalOverlay.classList.remove('show');
+  /* --- Contratar: send with the selected plan --- */
+  hireBtn.addEventListener('click', () => {
+    sendData();
+    finishFlow();
   });
 </script>
 
