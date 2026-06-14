@@ -411,192 +411,6 @@
     border: 3px solid var(--gold-light);
   }
 
-  /* ---------- Modal ---------- */
-  .modal-overlay{
-    position:fixed;
-    inset:0;
-    background: rgba(58,19,32,0.55);
-    backdrop-filter: blur(4px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index: 100;
-    padding: 20px;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity 0.3s ease;
-  }
-
-  .modal-overlay.show{
-    opacity:1;
-    pointer-events:all;
-  }
-
-  .modal{
-    background: var(--cream);
-    border-radius: 24px;
-    max-width: 420px;
-    width:100%;
-    max-height: 88vh;
-    overflow-y:auto;
-    padding: 2rem 1.6rem;
-    box-shadow: 0 30px 70px -20px rgba(0,0,0,0.4);
-    transform: translateY(30px) scale(0.96);
-    transition: transform 0.35s ease;
-    border: 1px solid var(--gold-light);
-  }
-
-  @media (min-width: 760px){
-    .modal{ max-width: 760px; padding: 2.2rem 2.4rem; }
-  }
-
-  .plans-grid{
-    display:flex;
-    flex-direction: column;
-    gap: 0.9rem;
-  }
-
-  @media (min-width: 760px){
-    .plans-grid{
-      flex-direction: row;
-      align-items: stretch;
-    }
-    .plans-grid .plan{
-      flex: 1;
-      margin-bottom: 0;
-      display:flex;
-      flex-direction:column;
-    }
-  }
-
-  .plan{
-    cursor:pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
-  }
-
-  .plan:hover{
-    border-color: var(--wine-soft);
-  }
-
-  .plan.selected{
-    transform: scale(1.06);
-    border-color: var(--wine-deep);
-    box-shadow: 0 16px 32px -14px rgba(92,19,38,0.5);
-    z-index: 2;
-    background: linear-gradient(150deg, var(--pink-pale), #ffffff);
-  }
-
-  .plans-grid.has-selection .plan:not(.selected){
-    transform: scale(0.97);
-    opacity: 0.6;
-  }
-
-  @media (min-width: 760px){
-    .plan.selected{ transform: scale(1.08); }
-    .plans-grid.has-selection .plan:not(.selected){ transform: scale(0.95); }
-  }
-
-  .btn-hire{
-    display:block;
-    margin: 1.4rem auto 0;
-    padding: 0.7rem 2rem;
-    border:none;
-    border-radius: 50px;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--wine-deep) 100%);
-    color: var(--cream);
-    font-family:'Playfair Display', serif;
-    font-size: 0.95rem;
-    font-weight:600;
-    letter-spacing: 0.4px;
-    cursor:pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 20px -10px rgba(92,19,38,0.5);
-    opacity:0;
-    transform: translateY(8px) scale(0.96);
-    pointer-events:none;
-  }
-
-  .btn-hire.visible{
-    opacity:1;
-    transform: translateY(0) scale(1);
-    pointer-events:all;
-  }
-
-  .btn-hire:hover{
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 14px 26px -10px rgba(92,19,38,0.6);
-  }
-
-  .modal-overlay.show .modal{
-    transform: translateY(0) scale(1);
-  }
-
-  .modal h2{
-    font-size: 1.35rem;
-    margin-bottom: 0.3rem;
-  }
-
-  .modal .modal-sub{
-    text-align:center;
-    font-size: 0.85rem;
-    color: var(--wine);
-    opacity:0.8;
-    margin-bottom: 1.4rem;
-  }
-
-  .plan{
-    border: 1.5px solid rgba(131,38,63,0.14);
-    border-radius: 16px;
-    padding: 1rem 1.1rem;
-    margin-bottom: 0.9rem;
-    background: rgba(255,255,255,0.65);
-  }
-
-  .plan.featured{
-    border-color: var(--gold);
-    background: linear-gradient(150deg, var(--pink-pale), #ffffff);
-    box-shadow: 0 10px 24px -14px rgba(205,163,73,0.6);
-  }
-
-  .plan-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    margin-bottom: 0.4rem;
-  }
-
-  .plan-head .name{
-    font-family:'Playfair Display', serif;
-    font-weight:600;
-    font-size: 1.05rem;
-    color: var(--wine-deep);
-  }
-
-  .plan-head .price{
-    font-weight:800;
-    color: var(--wine);
-    font-size: 1rem;
-    white-space:nowrap;
-  }
-
-  .plan ul{
-    list-style:none;
-    font-size: 0.85rem;
-    line-height:1.65;
-    color: var(--ink);
-    opacity:0.9;
-  }
-
-  .plan ul li::before{
-    content:"♥ ";
-    color: var(--gold);
-    font-weight:700;
-  }
-
-  .modal-close{
-    margin-top: 0.4rem;
-  }
-
   /* ---------- Loading overlay ---------- */
   .loading-overlay{
     position:fixed;
@@ -657,6 +471,93 @@
 
   .success-msg.visible{ display:block; animation: fadeUp 0.5s ease; }
 
+  /* ---------- Result view (post-confirm) ---------- */
+  #tab4-result{ display:none; }
+  #tab4-result.visible{ display:block; animation: fadeUp 0.6s ease; }
+
+  .result-title{
+    font-size: 1.5rem;
+    margin: 0.4rem 0 0.8rem;
+  }
+
+  .fireworks-stage{
+    position:relative;
+    width:100%;
+    height: 160px;
+    margin-bottom: 0.4rem;
+    overflow:hidden;
+  }
+
+  .firework{
+    position:absolute;
+    top:55%;
+    width: 8px;
+    height: 8px;
+    border-radius:50%;
+    background: var(--wine);
+    box-shadow:
+      0 0 0 0 var(--wine);
+    opacity:0;
+    animation: launch 1.8s ease-out infinite;
+  }
+
+  .fw-1{ left: 22%; background: var(--wine-soft); animation-delay: 0s; }
+  .fw-2{ left: 50%; background: var(--gold); animation-delay: 0.5s; }
+  .fw-3{ left: 76%; background: var(--wine-deep); animation-delay: 1s; }
+
+  @keyframes launch{
+    0%{
+      top: 80%;
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    35%{
+      top: 15%;
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    36%{
+      transform: scale(0);
+    }
+    55%{
+      top: 15%;
+      opacity: 1;
+      transform: scale(0);
+      box-shadow:
+        0 0 0 1px transparent,
+        0 -34px 0 -2px var(--gold-light),
+        24px -24px 0 -2px var(--pink-soft),
+        34px 0 0 -2px var(--gold),
+        24px 24px 0 -2px var(--wine-soft),
+        0 34px 0 -2px var(--gold-light),
+        -24px 24px 0 -2px var(--pink-soft),
+        -34px 0 0 -2px var(--gold),
+        -24px -24px 0 -2px var(--wine-soft);
+    }
+    85%{
+      top: 15%;
+      opacity: 0;
+      transform: scale(0.4);
+      box-shadow:
+        0 0 0 1px transparent,
+        0 -70px 0 -2px transparent,
+        50px -50px 0 -2px transparent,
+        70px 0 0 -2px transparent,
+        50px 50px 0 -2px transparent,
+        0 70px 0 -2px transparent,
+        -50px 50px 0 -2px transparent,
+        -70px 0 0 -2px transparent,
+        -50px -50px 0 -2px transparent;
+    }
+    100%{ opacity:0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .firework{ animation: none; display:none; }
+  }
+
   /* ---------- Responsive ---------- */
   @media (min-width: 540px){
     .card{ padding: 2.6rem 2.2rem; }
@@ -694,7 +595,7 @@
     <section class="tab visible" id="tab-1" aria-labelledby="tab1-title">
       <span class="eyebrow">Paso 1</span>
       <h1 id="tab1-title">¿Qué haremos? 🌹</h1>
-      <p class="lead">Elija el plan de su preferencia</p>
+      <p class="lead">Elija la actividad de su preferencia</p>
 
       <div class="options" id="activity-options" role="group" aria-label="Opciones de actividad">
         <button class="option-card" data-value="Cine 🎬" tabindex="0">
@@ -753,30 +654,37 @@
     <!-- TAB 4: Confirmación -->
     <section class="tab" id="tab-4" aria-labelledby="tab4-title">
       <span class="eyebrow">Último paso</span>
-      <h1 id="tab4-title">Muchas gracias por su selección, preciosa ✨</h1>
 
-      <div class="summary">
-        <div class="summary-row">
-          <span class="summary-label">Actividad</span>
-          <span class="summary-value" id="summary-activity">—</span>
+      <div id="tab4-form">
+        <h1 id="tab4-title">Muchas gracias por su selección, preciosa ✨</h1>
+
+        <div class="summary">
+          <div class="summary-row">
+            <span class="summary-label">Actividad</span>
+            <span class="summary-value" id="summary-activity">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Día de recogida</span>
+            <span class="summary-value" id="summary-day">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Horario de recogida</span>
+            <span class="summary-value" id="summary-time">—</span>
+          </div>
         </div>
-        <div class="summary-row">
-          <span class="summary-label">Día de recogida</span>
-          <span class="summary-value" id="summary-day">—</span>
-        </div>
-        <div class="summary-row">
-          <span class="summary-label">Horario de recogida</span>
-          <span class="summary-value" id="summary-time">—</span>
-        </div>
+
+        <button class="btn-primary" id="btn-confirm">Confirmar 💌</button>
+        <button class="btn-link" id="btn-edit">✏️ Editar respuestas</button>
       </div>
 
-      <div class="pet-photo-wrap">
-        <img src="perrito.png" alt="Perrito feliz con un ramo de flores" loading="lazy">
+      <div id="tab4-result">
+        
+        <h1 class="result-title">Muchas gracias por su selección, preciosa ✨</h1>
+        <div class="pet-photo-wrap">
+          <img src="perrito.png" alt="Perrito feliz con un ramo de flores" loading="lazy">
+        </div>
+        <p class="success-msg visible">Espere confirmación directa en los días próximos 💌</p>
       </div>
-
-      <button class="btn-primary" id="btn-confirm">Confirmar 💌</button>
-      <button class="btn-link" id="btn-edit">✏️ Editar respuestas</button>
-      <p class="success-msg" id="success-msg">¡Listo, su información ha sido enviada! Estaremos confirmando los detalles muy pronto 💌</p>
     </section>
 
   </main>
@@ -785,59 +693,6 @@
   <div class="loading-overlay" id="loading-overlay" role="status" aria-live="polite">
     <div class="spinner" aria-hidden="true"></div>
     <p class="loading-text">Enviando respuestas al servidor...</p>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <span class="eyebrow">Elija su plan</span>
-      <h2 id="modal-title">Planes de suscripción 💞</h2>
-      <p class="modal-sub">Para finalizar, seleccione el plan de su preferencia</p>
-
-      <div class="plans-grid" id="plans-grid">
-        <div class="plan" data-plan="Plan Amigos">
-          <div class="plan-head">
-            <span class="name">Plan Amigos</span>
-            <span class="price">$100 MXN</span>
-          </div>
-          <ul>
-            <li>Comida 1 vez al mes</li>
-            <li>1 salida al mes</li>
-            <li>Mención en historias el día de su cumpleaños</li>
-            <li>2 regalos de preferencia</li>
-            <li>Apoyo incondicional</li>
-          </ul>
-        </div>
-
-        <div class="plan featured" data-plan="Plan Más que Amigos">
-          <div class="plan-head">
-            <span class="name">Plan Más que Amigos</span>
-            <span class="price">$200 MXN</span>
-          </div>
-          <ul>
-            <li>2 comidas al mes</li>
-            <li>2 salidas al mes</li>
-            <li>Regalos espontáneos</li>
-            <li>Escucha activa</li>
-            <li>Coqueteo moderado</li>
-          </ul>
-        </div>
-
-        <div class="plan" data-plan="Plan Novios">
-          <div class="plan-head">
-            <span class="name">Plan Novios</span>
-            <span class="price">$300 MXN</span>
-          </div>
-          <ul>
-            <li>Absolutamente todo lo anterior</li>
-            <li>Atención 24/7</li>
-            <li>Y mucho más ✨</li>
-          </ul>
-        </div>
-      </div>
-
-      <button class="btn-hire" id="btn-hire">Contratar</button>
-    </div>
   </div>
 
 <script>
@@ -873,7 +728,7 @@
   /* ---------------------------------------------
      State + tab navigation
   --------------------------------------------- */
-  const state = { activity: null, day: null, time: null, plan: null };
+  const state = { activity: null, day: null, time: null };
 
   const tabs = {
     1: document.getElementById('tab-1'),
@@ -990,42 +845,14 @@
   });
 
   /* ---------------------------------------------
-     Confirm: loading spinner -> plans modal
+     Confirm: send data + loading spinner -> fireworks
   --------------------------------------------- */
   const loadingOverlay = document.getElementById('loading-overlay');
-  const modalOverlay = document.getElementById('modal-overlay');
   const confirmBtn = document.getElementById('btn-confirm');
   const editBtn = document.getElementById('btn-edit');
-  const successMsg = document.getElementById('success-msg');
-  const plansGrid = document.getElementById('plans-grid');
-  const planCards = document.querySelectorAll('#plans-grid .plan');
-  const hireBtn = document.getElementById('btn-hire');
+  const tab4Form = document.getElementById('tab4-form');
+  const tab4Result = document.getElementById('tab4-result');
 
-  confirmBtn.addEventListener('click', () => {
-    confirmBtn.disabled = true;
-    loadingOverlay.classList.add('show');
-
-    setTimeout(() => {
-      loadingOverlay.classList.remove('show');
-      modalOverlay.classList.add('show');
-    }, 4000);
-  });
-
-  /* --- Plan selection inside the modal --- */
-  planCards.forEach(card => {
-    card.addEventListener('click', () => {
-      planCards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      plansGrid.classList.add('has-selection');
-      state.plan = card.dataset.plan;
-      hireBtn.classList.add('visible');
-      hireBtn.textContent = 'Contratar ' + state.plan;
-    });
-  });
-
-  /* ---------------------------------------------
-     Send data to Formspree
-  --------------------------------------------- */
   function sendData(){
     fetch('https://formspree.io/f/xvznvqdl', {
       method: 'POST',
@@ -1033,23 +860,23 @@
       body: new URLSearchParams({
         Actividad: state.activity || '',
         Día: state.day || '',
-        Horario: state.time || '',
-        Plan: state.plan || 'Sin plan'
+        Horario: state.time || ''
       })
     }).catch(() => { /* envío en segundo plano, errores silenciosos */ });
   }
 
-  function finishFlow(){
-    modalOverlay.classList.remove('show');
-    confirmBtn.style.display = 'none';
+  confirmBtn.addEventListener('click', () => {
+    confirmBtn.disabled = true;
     editBtn.style.display = 'none';
-    successMsg.classList.add('visible');
-  }
+    loadingOverlay.classList.add('show');
 
-  /* --- Contratar: send with the selected plan --- */
-  hireBtn.addEventListener('click', () => {
     sendData();
-    finishFlow();
+
+    setTimeout(() => {
+      loadingOverlay.classList.remove('show');
+      tab4Form.style.display = 'none';
+      tab4Result.classList.add('visible');
+    }, 4000);
   });
 </script>
 
